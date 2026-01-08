@@ -1,6 +1,6 @@
 'use client'
 import { db } from "@/lib/firebase";
-import { UserProfile } from "firebase/auth";
+import { UserProfile } from "@/lib/types";
 import { doc, onSnapshot } from "firebase/firestore";
 import { useEffect, useState, useRef, useCallback } from "react";
 
@@ -22,7 +22,7 @@ export function useUserProfile(userId: string | undefined): UserProfileResult {
     useEffect(() => {
         if (!userId) {
             setProfile(null);
-            setLoading(false);
+            setLoading(true);
             setError(null);
             return;
         }

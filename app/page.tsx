@@ -53,7 +53,11 @@ export default function Home() {
   }
   console.log("User in home page:", user);
   return (
-    <MainLayout user={user} activeTab={activeTab} onTabChange={setActiveTab} profile={profile}>
+    <MainLayout 
+    user={user} 
+    activeTab={activeTab} 
+    onTabChange={setActiveTab} 
+    profile={profile}>
       {activeTab === "messages" ? (
         <MessagePage user={user} />
       ) : activeTab === "discovery" ? (
