@@ -25,23 +25,23 @@ export const useCloudinary = () => {
             });
             const data = await response.json();
             console.log(data);
-            if(!response.ok) {
+            if (!response.ok) {
                 console.error("Cloudinary error")
                 throw new Error(data.error?.message || 'upload failed')
             }
 
             return data.secure_url;
         } catch (error) {
-            console.error('error uploading image',error)
+            console.error('error uploading image', error)
             throw error;
 
-        }finally{
+        } finally {
             setUpLoadProgress(0)
             setUpLoading(false)
         }
     };
 
-    const uploadMultipleImage = async (files:File[]):Promise<string[]> => {
+    const uploadMultipleImage = async (files: File[]): Promise<string[]> => {
         const uploadPromise = files.map((file) => uploadImage(file));
         return Promise.all(uploadPromise)
     }

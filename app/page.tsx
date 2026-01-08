@@ -25,6 +25,8 @@ export default function Home() {
       router.push("/login");
       return;
     }
+    console.log("user:",user);
+    console.log("Profile",profile);
 
     if (user && !profile && !profileLoading) {
       router.push("/user-onboarding");
