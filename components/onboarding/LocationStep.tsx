@@ -1,8 +1,9 @@
 import { getCurrentLocation } from '@/lib/common-utils'
 import { UserProfile } from '@/lib/types'
-import { MapPin, Search, X } from 'lucide-react'
+import { Loader, MapPin, Navigation, Search, X } from 'lucide-react'
 import React, { useEffect, useRef, useState } from 'react'
 import { Input } from '../ui/input'
+import { Button } from '../ui/button'
 
 interface LocationStepProps {
   profile: UserProfile
@@ -166,7 +167,7 @@ const LocationStep = ({ profile, updateProfile }: LocationStepProps) => {
           <Search className='absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-400 h-4 w-4' />
           <Input
             type='text'
-            placeholder='Search for your city or address'
+            placeholder='Search for your city or address...'
             value={searchQuery}
             onChange={(e) => handleSearchChange(e.target.value)}
             className='pl-10 pr-10 h-12 border-gray-300 focus:border-primary focus:ring-primary rounded-xl '
@@ -213,8 +214,8 @@ const LocationStep = ({ profile, updateProfile }: LocationStepProps) => {
                         place.address?.village ||
                         place.address?.locality ||
                         place.address?.district}
-                        {place.address?.state && `, ${place.address?.state}`}
-                        {place.address?.country && `, ${place.address?.country}`}
+                      {place.address?.state && `, ${place.address?.state}`}
+                      {place.address?.country && `, ${place.address?.country}`}
                     </p>
                   </div>
 
@@ -225,11 +226,52 @@ const LocationStep = ({ profile, updateProfile }: LocationStepProps) => {
 
           </div>
         )}
-
+        {isSearching && (
+          <div className='flex items-center justify-center py-2 '>
+            <Loader className='h-4 w-4 animate-spin text-gray-400' />
+            <span className='ml-2 text-sm text-gray-500'>Searching...</span>
+          </div>
+        )}
       </div>
+      <div className='flex items-center'>
+        <div className='flex-1 border-t boder-gray-300'></div>
+        <span className='px-3 text-sm text-gray-500 '></span>
+        <div className='flex-1 border-t boder-gray-300'></div>
+      </div>
+      <Button
+      onClick={handleGetCurrentLocation}
+      disabled={isLoading}
+      variant="outline"
+      className='w-full h-12 border-gray-300 hover:bg-gray-50 disabled:bg-gray-100 disabled:cursor-not-allowed '
+      >
+        {isLoading ? (
+          <>
+            <Loader className='w-4 h-4 animate-spin mr-2' />
+            Getting Location...
+          </>
+        ) : (
+          <>
+            <Navigation className='w-4 h-4 mr-2' />
+            Use Current Location
+          </>
+        )}
+      </Button>
+      {isLocationSet && (
+        <div className='bg-green-50 border border-green-200 rounded-xl p-4'>
+          <div className='flex item-start gap-3 '>
+            <MapPin className='w-5 h-5 text-green-500 shrink-0 mt-0.5' />
+            <div>
+              <p className='text-green-800 font-medium'>Location Set</p>
+              <p className='text-green-700 text-sm font-medium'>{profile.location.city}</p>
+              <p className='text-green-600 text-sm '>{profile.location.state},{profile.location.country}</p>
+              <p className='text-green-500 text-xs mt-1'>{profile.location.address}</p>
+            </div>
+          </div>
 
+        </div>
+      )}
     </div>
-  )
-}
+  );
+};
 
 export default LocationStep

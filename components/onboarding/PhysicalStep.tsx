@@ -2,9 +2,8 @@ import { generateHeightOptions, generateWeightOptions, LOOKING_FOR_OPTIONS, ONBO
 import { UserProfile } from '@/lib/types'
 import React, { useEffect, useState } from 'react'
 import { Label } from '../ui/label'
-import { Calendar, Ruler, SearchIcon, Weight } from 'lucide-react'
-import { Select, SelectItem, SelectTrigger, SelectValue } from '../ui/select'
-import { SelectContent } from '@radix-ui/react-select'
+import { Calendar, Ruler, SearchIcon, Weight, Sparkles } from 'lucide-react'
+import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '../ui/select'
 import { Badge } from '../ui/badge'
 import { Input } from '../ui/input'
 
@@ -12,9 +11,11 @@ interface PhysicalStepProps {
   profile: UserProfile
   updateProfile: (updates: Partial<UserProfile>) => void
 }
+
 const PhysicalStep = ({ profile, updateProfile }: PhysicalStepProps) => {
   const [minAge, setMinAge] = useState(profile.ageRange?.[0] ?? ONBOARDING_CONSTANTS.DEFAULT_AGE_MIN)
   const [maxAge, setMaxAge] = useState(profile.ageRange?.[1] ?? ONBOARDING_CONSTANTS.DEFAULT_AGE_MAX)
+
   useEffect(() => {
     setMinAge(profile.ageRange?.[0] ?? ONBOARDING_CONSTANTS.DEFAULT_AGE_MIN);
     setMaxAge(profile.ageRange?.[1] ?? ONBOARDING_CONSTANTS.DEFAULT_AGE_MAX)
@@ -34,20 +35,34 @@ const PhysicalStep = ({ profile, updateProfile }: PhysicalStepProps) => {
     const updated = current.includes(value) ? current.filter((item) => item !== value) : [...current, value]
     updateProfile({ lookingFor: updated })
   }
+
   return (
     <div className='space-y-6'>
-      <div className='grid grid-cols-1 md:grid-cols-2 gap-6'>
+      
+      {/* Header with Icon */}
+      <div className='text-center'>
+        <Sparkles className='h-12 w-12 text-pink-500 mx-auto mb-4' />
+        <h3 className='text-xl font-bold text-gray-800 mb-2'>
+          Physical & Preferences
+        </h3>
+        <p className='text-gray-600'>
+          Let others know what you look like and what you're looking for.
+        </p>
+      </div>
 
+      <div className='grid grid-cols-1 md:grid-cols-2 gap-6'>
+        {/* HEIGHT DROPDOWN */}
         <div className='space-y-2'>
           <Label className='flex items-center space-x-2 text-gray-700 '>
             <Ruler className='h-4 w-4 text-pink-500' />
             <span>Height</span>
           </Label>
           <Select value={profile.height} onValueChange={(value) => updateProfile({ height: value })} >
-            <SelectTrigger className='w-full border-gray-300 focus:border-pink-500'>
+            <SelectTrigger className='w-full border-gray-300 focus:border-pink-500 rounded-xl h-12'>
               <SelectValue placeholder="Select your height" />
             </SelectTrigger>
-            <SelectContent className='bg-white'>
+            {/* Added max-h-[300px] and overflow-y-auto here */}
+            <SelectContent className='bg-white max-h-[300px] overflow-y-auto'>
               {generateHeightOptions().map((option) => (
                 <SelectItem key={option.value} value={option.value}>
                   {option.label}
@@ -55,19 +70,20 @@ const PhysicalStep = ({ profile, updateProfile }: PhysicalStepProps) => {
               ))}
             </SelectContent>
           </Select>
-
         </div>
 
+        {/* WEIGHT DROPDOWN */}
         <div className='space-y-2'>
           <Label className='flex items-center space-x-2 text-gray-700 '>
             <Weight className='h-4 w-4 text-pink-500' />
             <span>Weight</span>
           </Label>
           <Select value={profile.weight} onValueChange={(value) => updateProfile({ weight: value })} >
-            <SelectTrigger className='w-full border-gray-300 focus:border-pink-500'>
+            <SelectTrigger className='w-full border-gray-300 focus:border-pink-500 rounded-xl h-12'>
               <SelectValue placeholder="Select your weight" />
             </SelectTrigger>
-            <SelectContent className='bg-white' >
+             {/* Added max-h-[300px] and overflow-y-auto here */}
+            <SelectContent className='bg-white max-h-[300px] overflow-y-auto' >
               {generateWeightOptions().map((option) => (
                 <SelectItem key={option.value} value={option.value}>
                   {option.label}
@@ -75,9 +91,9 @@ const PhysicalStep = ({ profile, updateProfile }: PhysicalStepProps) => {
               ))}
             </SelectContent>
           </Select>
-
         </div>
       </div>
+
       <div className='space-y-4' >
         <Label className='flex items-center space-x-2 text-gray-700'>
           <SearchIcon className='h-4 w-4 text-pink-500' />
@@ -93,16 +109,15 @@ const PhysicalStep = ({ profile, updateProfile }: PhysicalStepProps) => {
             >
               <span className='text-lg mr-2'>{option.icon}</span>
               <span className='text-sm font-medium'>{option.value}</span>
-
             </Badge>
           ))}
         </div>
-
       </div>
+
       <div className='space-y-4'>
         <Label className='flex items-center space-x-2 text-gray-700'>
           <Calendar className='h-4 w-4 text-pink-500' />
-          <span>Age Range Preferece</span>
+          <span>Age Range Preference</span>
         </Label>
         <div className='grid grid-cols-2 gap-4'>
           <div>
@@ -117,10 +132,9 @@ const PhysicalStep = ({ profile, updateProfile }: PhysicalStepProps) => {
                 setMinAge(val === "" ? 0 : parseInt(val))
               }}
               onBlur={handleBlur}
-              className='border-gray-300 focus:border-pink-500'
+              className='border-gray-300 focus:border-pink-500 rounded-xl h-12'
             />
           </div>
-
 
           <div>
             <Label className='text-sm text-gray--600'>Max Age</Label>
@@ -134,13 +148,12 @@ const PhysicalStep = ({ profile, updateProfile }: PhysicalStepProps) => {
                 setMaxAge(val === "" ? 0 : parseInt(val))
               }}
               onBlur={handleBlur}
-              className='border-gray-300 focus:border-pink-500'
+              className='border-gray-300 focus:border-pink-500 rounded-xl h-12'
             />
           </div>
         </div>
       </div>
     </div>
-
   )
 }
 

@@ -240,6 +240,15 @@ export const generateWeightOptions = (): Array<{ value: string; label: string }>
   })
 }
 
+export const EDUCATION_OPTIONS = [
+  { value: "high_school", label: "High School" },
+  { value: "bachelors", label: "Bachelor's Degree" },
+  { value: "masters", label: "Master's Degree" },
+  { value: "phd", label: "PhD / Doctorate" },
+  { value: "trade_school", label: "Trade / Vocational School" },
+  { value: "other", label: "Other" },
+]
+
 // ============================================================================
 // RESPONSIVE UTILITIES
 // ============================================================================
