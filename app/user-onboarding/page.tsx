@@ -217,7 +217,7 @@ const OnboardingPage = () => {
 
                   {isLastStep ? (
                     <Button
-                      // Fixed: onClick was prevStep, changed to handleSaveProfile
+                    
                       onClick={handleSaveProfile}
                       disabled={!canProceedToNext || saving || profile.photos.length < 2}
                       className='bg-gradient-to-r from-pink-500 to-red-500 hover:from-pink-600 hover:to-red-600 text-white flex items-center gap-2'

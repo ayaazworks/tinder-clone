@@ -1,4 +1,4 @@
-import { error } from "console";
+'use-client'
 import { useState } from "react"
 
 
@@ -16,17 +16,17 @@ export const useCloudinary = () => {
             formData.append("file", file)
             formData.append("upload_preset", process.env.NEXT_PUBLIC_CLOUDINARY_UPLOAD_PRESET || "dating_app")
 
-            const cloudName = process.env.NEXT_PUBLIC_CLOUDINARY_UPLOAD_NAME;
+            const cloudName = process.env.NEXT_PUBLIC_CLOUDINARY_CLOUD_NAME;
             if (!cloudName) throw new Error("Missing Cloud Name")
 
-            const response = await fetch(`https://api.cloudinary.com/v1_1${cloudName}/image/upload`, {
+            const response = await fetch(`https://api.cloudinary.com/v1_1/${cloudName}/image/upload`, {
                 method: 'POST',
                 body: formData
             });
             const data = await response.json();
             console.log(data);
             if(!response.ok) {
-                console.error("Cloudinary error",error)
+                console.error("Cloudinary error")
                 throw new Error(data.error?.message || 'upload failed')
             }
 
